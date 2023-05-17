@@ -50,7 +50,10 @@ var playagain = true
 var wins_each = [0,0,0]
 var board = [0,0,0,0,0,0,0,0,0]
 var no_winner = true
-var pieces = ["","&#9711;","&times;"]
+var imgx = '<img class="nghts_crss" src="image/X.png" alt=""></img>';
+var imgO = '<img class="nghts_crss" src="image/O.png" alt=""></img>';
+/* imgx.src = "image/X.png"; */
+var pieces = ["",imgx,imgO]
 var said = ["","","","","","","","","",""]
 var human_turn=false
 var pwns = [
@@ -116,7 +119,7 @@ function new_game(){
         board = [0,0,0,0,0,0,0,0,0]
         no_winner = true
         for(var i=0;i<9;i++){
-            document.getElementById("pos"+i).innerHTML = "<form onsubmit='javascript:play_human("+i+");return false'><input type='submit' value=' '></form>"
+            document.getElementById("pos"+i).innerHTML = "<form class='play_btn' onsubmit='javascript:play_human("+i+");return false'><input class='btn_play' type='submit' value=' '></form>"
         }
         play_menace()
     }
@@ -459,9 +462,8 @@ function say(stuff){
 }
 
 function make_ox(pos,n){
-    var output = "<center><table class='board'>"
+    var output = "<center class='hidden'><table class='board'>"
     for(var i=0;i<9;i++){
-        if(i%3 == 0){output+="<tr>"}
         output += "<td id='"+pos+"-"+i+"' class='p"+i
         if(pos[i] == 0){
             output += " num'>"+menace[n]["boxes"][pos][i]+"</td>"
@@ -546,22 +548,7 @@ function show_menace(n){
     var boxout = ""
     var numb = 0
     for(var move=0;move<menace[n]["orderedBoxes"].length;move++){
-        var moven = move * 2 + n;
-        if(moven == 1){
-            boxout += "This box is for the first move:";
-        } else {
-            boxout += "These "+menace[n]["orderedBoxes"][move].length+" boxes are for the "
-            if(moven == 2){boxout += "second"} else
-            if(moven == 3){boxout += "third"} else
-            if(moven == 4){boxout += "fourth"} else
-            if(moven == 5){boxout += "fifth"} else
-            if(moven == 6){boxout += "sixth"} else
-            if(moven == 7){boxout += "seventh"} else
-            if(moven == 8){boxout += "eighth"} else
-            if(moven == 9){boxout += "ninth"}
-            boxout += " move:"
-        }
-        boxout += "<br />";
+        var moven = move * 2 + n;   
         var cols = 0
         boxout += "<center><table class='moves'>"
         for(var k=0;k<menace[n]["orderedBoxes"][move].length;k++){
@@ -573,16 +560,15 @@ function show_menace(n){
             numb += 1
             boxout += "<td class='board' id='board"+key+"'>"+make_ox(key,n)+"</td>"
             if(cols == 7){
-                boxout += "</tr>"
+                
                 cols = 0
             }
         }
         if(cols != 0){
-            boxout += "</tr>"
+            
         }
-        boxout += "</table></center><br /><br />"
+       
     }
-    output += "This box shows all " + numb + " matchboxes that make up "+menacename+".<br /><br />"
     output += boxout
     output += "<br /><br />";
     document.getElementById("_"+n+"_moves").innerHTML = output
@@ -697,6 +683,8 @@ function update_plot(){
 function redraw_plot(){
     var c=document.getElementById("plot_here")
     var ctx=c.getContext("2d")
+    ctx.fillStyle = '#fff'
+    ctx.strokeStyle = '#fff'
     ctx.clearRect(0, 0, c.width, c.height)
     updateplotlimits()
     for(var i=0;i<=5;i++){
@@ -735,7 +723,7 @@ function draw_point(i){
     var ctx=c.getContext("2d")
     ctx.beginPath()
     ctx.arc(xtopx(i), ytopx(plotdata[i]), 3, 0, 2 * Math.PI, false)
-    ctx.fillStyle = '#FF0000'
+    ctx.fillStyle = '#4F4FD9'
     ctx.fill()
     ctx.lineWidth = 1
     ctx.strokeStyle = '#000000'
