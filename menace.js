@@ -751,6 +751,9 @@ var menace = {
    }
    function setPlayer2(id){
     player = id
+    var el5 = document.getElementById("reset-game")
+    var el4 = document.getElementById("message")
+    var el3 = document.getElementById("table_score")
     var el1 = document.getElementById("table_bot")
     var el2 = document.getElementById("table_player")
     if(id=="o"){
@@ -758,70 +761,105 @@ var menace = {
         el1.classList.remove("d-block");
         el2.classList.remove("d-none");
         el2.classList.add("d-block");
+        el3.classList.add("d-none");
+        el4.classList.remove("d-none");
+        el4.classList.add("d-block");
+        el5.classList.remove("d-none");
+        el5.classList.add("d-block");
+       
     }
     else if(id=="j") {
         el1.classList.remove("d-none");
         el1.classList.add("d-block");
         el2.classList.add("d-none");
         el2.classList.remove("d-block");
+        el3.classList.remove("d-none");
+        el4.classList.add("d-none");
+        el4.classList.remove("d-block");
+        el5.classList.add("d-none");
+        el5.classList.remove("d-block");
     }
 }
-let cells = document.querySelectorAll('#table_player td')
-function start(cells) {
-	let i = 0;
-	
-	for (let cell of cells) {
-		cell.addEventListener('click', function() {
-			this.textContent = ['X', 'O'][i % 2];
-			i++;
-		});
-	}
-}
-function init(selector) {
-	let cells = document.querySelectorAll('#table_player td');
-	let i = 0;
-	
-	for (let cell of cells) {
-		cell.addEventListener('click', function step() {
-			this.textContent = ['X', 'O'][i % 2];
-			this.removeEventListener('click', step);
-			
-			// здесь мы должны проверять победу или ничью
-			
-			i++;
-		});
-        if (isVictory(cells)) {
-            alert(this.textContent);
-        } else if (i == 8) {
-            alert('ничья');
+function pvp() {
+var ceil = document.getElementsByClassName("game-item"),
+reset = document.getElementById("reset-game"),
+message = document.getElementById("message"),
+player = "X",
+stepCount = 0,
+winCombinations = [
+        [1, 2, 3],
+        [1, 4, 7],
+        [1, 5, 9],
+        [2, 5, 8],
+        [3, 6, 9],
+        [3, 5, 7],
+        [4, 5, 6],
+        [7, 8, 9]
+     ],
+      dataX = [],
+      dataO = [];
+    for (var i = 0; i < ceil.length; i++) {
+        ceil[i].addEventListener("click", currentStep);
+    }
+    function currentStep() {
+        var num = +this.getAttribute("data-ceil");
+      if (!this.textContent) {
+        this.innerText = player;
+        player === "X"
+          ? dataX.push(num) && this.classList.add("x")
+          : dataO.push(num) && this.classList.add("o");
+        if (
+          (dataO.length > 2 || dataX.length > 2) &&
+          (checkWin(dataO, num) || checkWin(dataX, num))
+        ) {
+        for (var i = 0; i < ceil.length; i++) {
+        ceil[i].removeEventListener("click", currentStep);
         }
-        
-        i++;
-    }
-	}
-function isVictory(cells) {
-	let combs = [
-		[0, 1, 2],
-		[3, 4, 5],
-		[6, 7, 8],
-		[0, 3, 6],
-		[1, 4, 7],
-		[2, 5, 8],
-		[0, 4, 8],
-		[2, 4, 6],
-	];
+        return (message.innerText = "Победил игрок " + player);
+        }
+        changePlayer();
+        stepCount++;
+        stepCount === 9
 
-	for (let comb of combs) {
-		if (
-			cells[comb[0]].textContent == cells[comb[1]].textContent &&
-			cells[comb[1]].textContent == cells[comb[2]].textContent &&
-			cells[comb[0]].textContent != ''
-		) {
-			return true;
-		}
-	}
-	
-	return false;
-}
+          ? (message.innerText = "Ничья")
+          : (message.innerText = "Ходит игрок " + player);
+      }
+    }
+    function changePlayer() {
+      player === "X" ? (player = "O") : (player = "X");
+    }
+    reset.addEventListener("click", function() {
+      for (var i = 0; i < ceil.length; i++) {
+        ceil[i].innerText = "";
+      }
+      dataO = [];
+      dataX = [];
+      player = "X";
+      stepCount = 0;
+      message.innerText = "Ходит игрок " + player;
+      for (var i = 0; i < ceil.length; i++) {
+        ceil[i].addEventListener("click", currentStep);
+        ceil[i].classList.remove("x", "o");
+      }
+    });
+    function checkWin(arr, number) {
+      for (var w = 0, wLen = winCombinations.length; w < wLen; w++) {
+        var someWinArr = winCombinations[w],
+          count = 0;
+        if (someWinArr.indexOf(number) !== -1) {
+          for (var k = 0, kLen = someWinArr.length; k < kLen; k++) {
+            if (arr.indexOf(someWinArr[k]) !== -1) {
+              count++;
+              if (count === 3) {
+                return true;
+              }
+            }
+          }
+          count = 0;
+        }
+      }
+    }
+    };
    // start game
+   pvp();
    reset_menace("both")

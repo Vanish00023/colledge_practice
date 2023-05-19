@@ -138,7 +138,8 @@ table.board td form {
 .nghts_crss{
 width: 88px;
 height: 88px;    
-margin-top: 2;
+margin-top: 4;
+margin-left: 4;
 }
 .table-dark>tbody>tr>td {
     table-layout: fixed;
@@ -147,4 +148,20 @@ margin-top: 2;
 }
 #_1_tweak_s {
     display: none;
+}
+.game-item {
+   width: 95px;
+   height: 95px;
+}
+.o {
+    background-image: url(image/O.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #212529;
+}
+.x {
+    background-image: url(image/X.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #212529;
 }

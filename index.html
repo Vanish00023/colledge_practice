@@ -37,7 +37,9 @@
                             <canvas class='graph' id='plot_here' width='300' height='300'></canvas>
                         </div>
                         <div class="col-6 d-flex flex-column justify-content-between align-items-center">
-                            <table class="table text-white">
+                            <span class="game-title d-none" id="message">Ход игрок X</span>
+                            <button class="btn btn-dark d-none" id="reset-game" name="reset-btn">Очистить</button>
+                            <table class="table text-white" id="table_score">
                                 <thead>
                                     <tr>
                                         <th scope="col">Player2</th>
@@ -76,23 +78,27 @@
                                     <td id='pos8' class='p8'></td>
                                 </tr>
                             </table>
+                            <div class="game">
                             <table class="table table-dark d-none" id="table_player">
+                                
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><div class="game-item" data-ceil="1"></div></td>
+                                    <td><div class="game-item" data-ceil="2"></div></td>
+                                    <td><div class="game-item" data-ceil="3"></div></td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><div class="game-item" data-ceil="4"></div></td>
+                                    <td><div class="game-item" data-ceil="5"></div></td>
+                                    <td><div class="game-item" data-ceil="6"></div></td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><div class="game-item" data-ceil="7"></div></td>
+                                    <td><div class="game-item" data-ceil="8"></div></td>
+                                    <td><div class="game-item" data-ceil="9"></div></td>
                                 </tr>
+                            
                             </table>
+                        </div>
                             <div class='summary' id='list_here'></div>
                             <span class='main_span'>
                                 <span id='_1_moves'></span>
